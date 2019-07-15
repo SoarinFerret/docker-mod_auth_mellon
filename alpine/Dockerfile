@@ -58,3 +58,7 @@ RUN chmod +x /usr/sbin/mellon_create_metadata.sh
 COPY --from=build /usr/local/apache2/modules/mod_auth_mellon.so /usr/local/apache2/modules/mod_auth_mellon.so
 COPY --from=build /usr/local/lib/liblasso* /usr/local/lib/
 COPY --from=build /usr/local/lib/libxmlsec1* /usr/local/lib/
+
+# alter httpd.conf to include files from conf.d and open 443
+RUN sed -i '/<IfModule ssl_module>/a Listen 443' /usr/local/apache2/conf/httpd.conf && \
+    sed -i '/<IfModule proxy_html_module>/i IncludeOptional conf.d/*.conf # load custom confs' /usr/local/apache2/conf/httpd.conf
