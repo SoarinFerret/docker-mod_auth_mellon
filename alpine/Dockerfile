@@ -61,4 +61,4 @@ COPY --from=build /usr/local/lib/libxmlsec1* /usr/local/lib/
 
 # alter httpd.conf to include files from conf.d and open 443
 RUN sed -i '/<IfModule ssl_module>/a Listen 443' /usr/local/apache2/conf/httpd.conf && \
-    sed -i '/<IfModule proxy_html_module>/i IncludeOptional conf.d/*.conf # load custom confs' /usr/local/apache2/conf/httpd.conf
+    sed -i '/<IfModule proxy_html_module>/i IncludeOptional conf.d/*.conf' /usr/local/apache2/conf/httpd.conf
