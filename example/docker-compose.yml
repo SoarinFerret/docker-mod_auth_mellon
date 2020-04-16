@@ -1,0 +1,17 @@
+version: '2'
+
+services:
+  saml:
+    image: soarinferret/mod_auth_mellon:alpine
+    restart: always
+    ports:
+      - 80:80
+      #- 443:443
+    volumes:
+      - ./saml.conf:/usr/local/apache2/conf.d/saml.conf:ro
+
+      # Sample location for mellon signing certs
+      #- ./sample_mellon:/usr/local/apache2/mellon:ro
+
+      # optional SSL
+      #- ./ssl:/usr/local/apache2/ssl:ro
