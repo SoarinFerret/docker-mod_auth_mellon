@@ -1,8 +1,10 @@
-FROM httpd:alpine AS build
+ARG APACHE_VERSION=2.4
 
-ARG MELLON_VERSION=0.14.2
+FROM httpd:${APACHE_VERSION}-alpine AS build
+
+ARG MELLON_VERSION=0.16.0
 ARG XMLSEC_VERSION=1.2.28
-ARG LASSO_VERSION=2.5.1
+ARG LASSO_VERSION=2.6.0
 
 RUN apk --update add \
   autoconf \
@@ -14,11 +16,12 @@ RUN apk --update add \
   libxml2-dev \
   make \
   perl-dev \
-  py-six \
   python \
   xmlsec-dev \
   zlib-dev \
-  curl
+  curl \
+  py-pip \
+  && pip install six
 
 # Install xmlsec
 RUN mkdir /tmp/xmlsec && \
@@ -38,7 +41,7 @@ RUN mkdir /tmp/lasso && \
 
 # Install mod_auth_mellon
 RUN mkdir /tmp/mod_auth_mellon && \
-  curl -L https://github.com/Uninett/mod_auth_mellon/archive/v${MELLON_VERSION}.tar.gz | tar -xvz -C /tmp/mod_auth_mellon --strip 1 && \
+  curl -L https://github.com/latchset/mod_auth_mellon/archive/v${MELLON_VERSION}.tar.gz | tar -xvz -C /tmp/mod_auth_mellon --strip 1 && \
   cd /tmp/mod_auth_mellon && \
   aclocal && \
   autoheader && \
@@ -47,7 +50,7 @@ RUN mkdir /tmp/mod_auth_mellon && \
   make && \
   make install
 
-FROM httpd:alpine
+FROM httpd:${APACHE_VERSION}-alpine
 RUN apk --no-cache add glib curl libxslt libltdl
 
 # copy mellon_create_metadata.sh
