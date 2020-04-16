@@ -12,6 +12,8 @@ This is a repository for unoffical builds of mod_auth_mellon and packaged as Doc
 * [debian, 0-16.0-debian](https://github.com/SoarinFerret/docker-mod_auth_mellon/blob/master/debian/Dockerfile)
 * [0.15.0-alpine](https://github.com/SoarinFerret/docker-mod_auth_mellon/blob/master/alpine/Dockerfile)
 * [0.15.0-debian](https://github.com/SoarinFerret/docker-mod_auth_mellon/blob/master/debian/Dockerfile)
+* [0.14.2-alpine](https://github.com/SoarinFerret/docker-mod_auth_mellon/blob/master/alpine/Dockerfile)
+* [0.14.2-debian](https://github.com/SoarinFerret/docker-mod_auth_mellon/blob/master/debian/Dockerfile)
 
 ## How to use this image
 
