@@ -1,20 +1,22 @@
-FROM httpd:2.4 as build
+ARG APACHE_VERSION=2.4
 
-ARG MELLON_VERSION=0.14.2
+FROM httpd:${APACHE_VERSION} as build
 
-RUN apt update && \
-  apt install build-essential apache2-dev liblasso3 pkg-config liblasso3-dev libcurl4-openssl-dev curl libxmlsec1 libxmlsec1-dev ca-certificates -y
+ARG MELLON_VERSION=0.16.0
+
+RUN apt-get update && \
+  apt-get install build-essential apache2-dev liblasso3 pkg-config liblasso3-dev libcurl4-openssl-dev curl libxmlsec1 libxmlsec1-dev ca-certificates -y
 
 # Compile & install mod_auth_mellon
 RUN mkdir /tmp/mod_auth_mellon && \
-  curl -L https://github.com/Uninett/mod_auth_mellon/archive/v${MELLON_VERSION}.tar.gz | tar -xvz -C /tmp/mod_auth_mellon --strip 1 && \
+  curl -L https://github.com/latchset/mod_auth_mellon/archive/v${MELLON_VERSION}.tar.gz | tar -xvz -C /tmp/mod_auth_mellon --strip 1 && \
   cd /tmp/mod_auth_mellon && \
   autoreconf && \
   ./configure --with-apxs2=/usr/local/apache2/bin/apxs && \
   make && \
   make install
 
-FROM httpd:2.4
+FROM httpd:${APACHE_VERSION}
 RUN apt update && apt install openssl liblasso3 libxmlsec1 -y
 
 # copy mellon_create_metadata.sh
